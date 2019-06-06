@@ -1,0 +1,16 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{0A30712F-45A4-2B09-1FD4-03903342B415}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "jumps",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	]
+}
