@@ -3,3 +3,11 @@
 
 #include "MainPaperCharacter.h"
 
+
+void AMainPaperCharacter::changeActiveWeapon(AWeapon* weapon) {
+	activeWeapon = weapon;
+}
+
+AWeapon* AMainPaperCharacter::getActiveWeapon() {
+	return activeWeapon;
+}

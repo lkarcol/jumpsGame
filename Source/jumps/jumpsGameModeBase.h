@@ -13,5 +13,10 @@ UCLASS()
 class JUMPS_API AjumpsGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void spawnWeapon(FTransform spawnLocation, int stackCapacity, int fireRate, float damage, float bulletSpeed, UPaperSprite* bulletSprite, UPaperSprite* weaponSprite );
 	
 };
