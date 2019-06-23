@@ -18,6 +18,10 @@ class JUMPS_API AWeapon : public APaperSpriteActor
 public:
 	AWeapon();
 
+protected:
+
+	virtual void BeginPlay() override;
+
 private:
 
 	int stackCapacity;
@@ -27,9 +31,13 @@ private:
 	float bulletSpeed;
 
 	UPaperSprite* bulletSprite;
-	UPaperSprite* weaponSprite;
+
 
 public:
+		
+
+	UPROPERTY(Replicated)
+	UPaperSprite* weaponSprite;
 
 	UPaperSpriteComponent* spriteComponent;
 
@@ -37,7 +45,7 @@ public:
 	void shot(FTransform initialBulletTransform);
 
 	UFUNCTION(BlueprintCallable)
-	void setWeaponProps(int stackCapacity, int fireRate, float damage, float bulletSpeed, UPaperSprite* bulletSprite, UPaperSprite* weaponSprite );
+	void setWeaponProps(int stackCapacity, int fireRate, float damage, float bulletSpeed, UPaperSprite* bulletSprite);
 
 	
 };

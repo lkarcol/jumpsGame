@@ -5,6 +5,9 @@
 
 
 void AMainPaperCharacter::changeActiveWeapon(AWeapon* weapon) {
+
+	//AWeapon* copy = NewObject<AWeapon>();
+	//copy->set
 	activeWeapon = weapon;
 }
 
