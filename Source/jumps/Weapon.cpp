@@ -4,6 +4,8 @@
 #include "Weapon.h"
 #include "Bullet.h"
 #include "Engine/World.h"
+#include "UnrealNetwork.h"
+#include "Engine.h"
 #include "PaperSpriteComponent.h"
 
 
@@ -11,10 +13,8 @@ AWeapon::AWeapon() {
 
 	// Bullet network settings
 	bReplicates = true;
-	bReplicateMovement = true;
+	SetReplicates(true);
 	bNetLoadOnClient = true;
-
-
 
 	spriteComponent = GetRenderComponent();
 	spriteComponent->SetIsReplicated(true);
@@ -24,10 +24,26 @@ AWeapon::AWeapon() {
 	spriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 }
 
-void AWeapon::setWeaponProps(int _stackCapacity, int _fireRate, float _damage, float _bulletSpeed, UPaperSprite* _bulletSprite, UPaperSprite* _weaponSprite ) {
+void AWeapon::BeginPlay() {
 
-	spriteComponent = GetRenderComponent();
-	spriteComponent->SetSprite(_weaponSprite);
+	Super::BeginPlay();
+
+	if (Role == ROLE_SimulatedProxy) {
+		GetRenderComponent()->SetSprite(weaponSprite);
+	}
+}
+
+void AWeapon::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AWeapon, weaponSprite);
+}
+
+
+void AWeapon::setWeaponProps(int _stackCapacity, int _fireRate, float _damage, float _bulletSpeed, UPaperSprite* _bulletSprite) {
+	
+	GetRenderComponent()->SetSprite(weaponSprite);
+//	UE_LOG(LogTemp, Warning, TEXT("ssssssssssss %s"),*_weaponSprite->GetName());
 
 	stackCapacity = _stackCapacity;
 	fireRate = _fireRate;
@@ -41,8 +57,9 @@ void AWeapon::shot(FTransform initialBulletTransform) {
 	UWorld* World = GetWorld();
 
 	ABullet* Bullet = World->SpawnActorDeferred<ABullet>(ABullet::StaticClass(), initialBulletTransform);
-	Bullet->setBulletProps(bulletSpeed, damage, bulletSprite);
-	Bullet->spriteComponent->SetMobility(EComponentMobility::Movable);
+	Bullet->bulletSprite = bulletSprite;
+	Bullet->setBulletProps(bulletSpeed, damage);
 	Bullet->FinishSpawning(initialBulletTransform);
-
+	
+	
 }

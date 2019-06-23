@@ -4,6 +4,7 @@
 #include "PaperSpriteActor.h"
 #include "Weapon.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "PaperSpriteComponent.h"
 
 void AjumpsGameModeBase::spawnWeapon(FTransform spawnLocation, int stackCapacity, int fireRate, float damage, float bulletSpeed, UPaperSprite* bulletSprite, UPaperSprite* weaponSprite) {
@@ -11,7 +12,8 @@ void AjumpsGameModeBase::spawnWeapon(FTransform spawnLocation, int stackCapacity
 	UWorld* World = GetWorld();
 
 	AWeapon* Weapon = World->SpawnActorDeferred<AWeapon>(AWeapon::StaticClass(), spawnLocation);
-	Weapon->setWeaponProps(stackCapacity, fireRate, damage, bulletSpeed, bulletSprite, weaponSprite);
-	Weapon->FinishSpawning(spawnLocation);
-
+	Weapon->weaponSprite = weaponSprite;
+	Weapon->setWeaponProps(stackCapacity, fireRate, damage, bulletSpeed, bulletSprite);
+	UGameplayStatics::FinishSpawningActor(Weapon, spawnLocation);
+	
 }

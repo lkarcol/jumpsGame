@@ -21,21 +21,31 @@ public:
 	ABullet();
 
 protected:
+
 	// Called when the game starts or when spawned
-	//virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
+
 private:
 
 	float damage;
+	float bulletSpeed;
 
 public:
+
 	// Called every frame
-	//virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaSeconds) override;
+
+	UPROPERTY(Replicated)
+	FVector bulletLocation;
+
+	UPROPERTY(Replicated)
+	UPaperSprite* bulletSprite;
 
 	// Projectile movement component.
 	UProjectileMovementComponent* ProjectileMovementComponent;
 	UPaperSpriteComponent* spriteComponent;
 
-	void setBulletProps(float bulletSpeed , float damage , UPaperSprite* bulletSprite);
+	void setBulletProps(float bulletSpeed , float damage  );
 	
 
 };
